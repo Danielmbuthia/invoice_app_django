@@ -26,15 +26,18 @@ class Invoice(models.Model):
     def __str__(self):
         return self.invoice_number
 
-    def get_tags(self):
+    @property  # treat tags as a field
+    def tags(self):
         return self.tags.all()
 
-    def get_positions(self):
+    @property
+    def positions(self):
         return self.position_set.all()  # relationships
 
-    def get_total_amount(self):
+    @property
+    def total_amount(self):
         total = 0
-        qs = self.get_positions()
+        qs = self.positions
         for pos in qs:
             total += pos.amount
         return total
