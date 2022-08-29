@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+ Invoice
+{% endblock title %}
+
+{% block content %}
+  {% for invoice in object_list %}
+    {{ invoice.invoice_number }}
+  {% endfor %}
+{% endblock content %}
