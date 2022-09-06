@@ -23,7 +23,7 @@ from invoice_project import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.hello_world),
-    path('invoices', include('invoices.urls'))
+    path('invoices/', include(('invoices.urls', 'invoices'), namespace='invoices'))
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_url=settings.MEDIA_ROOT)

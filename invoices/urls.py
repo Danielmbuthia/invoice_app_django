@@ -3,5 +3,6 @@ from django.urls import path
 from invoices import views
 
 urlpatterns = [
-    path('', views.InvoiceListView.as_view()),
+    path('', views.InvoiceListView.as_view(), name='main'),
+    path('create', views.InvoiceFormView.as_view(), name='create'),
 ]
