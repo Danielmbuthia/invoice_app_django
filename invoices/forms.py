@@ -16,10 +16,10 @@ class InvoiceForm(forms.ModelForm):
             'invoice_number',
             'completion_date',
             'issue_date',
-            'payment_date'
+            'payment_date',
         )
 
-    def clean_invoice_number(self):
-        number = self.cleaned_data.get('invoice_number')
-        if len(number) < 10:
-            raise ValidationError('Invoice Number too short')
+    # def clean_invoice_number(self):
+    #     number = self.cleaned_data.get('invoice_number')
+    #     if len(number) < 10:
+    #         raise ValidationError('Invoice Number too short')

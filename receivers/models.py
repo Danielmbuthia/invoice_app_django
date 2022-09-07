@@ -11,6 +11,7 @@ class Receiver(models.Model):
     website = models.URLField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    logo = models.ImageField(default='images/no_photo.png')
 
     def __str__(self):
         return self.name

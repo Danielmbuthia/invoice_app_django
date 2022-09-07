@@ -13,6 +13,8 @@ class Profile(models.Model):
     company_info = models.TextField(max_length=220)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    avatar = models.ImageField(default='images/avatar.png')
+    company_logo = models.ImageField(default='images/no_photo.png')
 
 
     def __str__(self):

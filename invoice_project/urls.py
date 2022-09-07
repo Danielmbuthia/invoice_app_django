@@ -24,9 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.hello_world),
     path('invoices/', include(('invoices.urls', 'invoices'), namespace='invoices'))
-]
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns += static(settings.MEDIA_URL, document_url=settings.MEDIA_ROOT)
 
 admin.site.site_header = 'Invoice Admin System'
 admin.site.index_title = 'Management'
