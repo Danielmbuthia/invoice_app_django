@@ -1,8 +1,6 @@
+
 from django import forms
-from django.core.exceptions import ValidationError
-
 from .models import Invoice
-
 
 class InvoiceForm(forms.ModelForm):
     completion_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
