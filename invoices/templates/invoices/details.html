@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} Details{% endblock title %}
+
+{% block content %}
+   
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'info' %}
+                <div class="alert alert-primary mt-2">
+                    {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+  <!-- Modal -->
+  <div class="modal fade" id="addPositionModal" tabindex="-1" role="dialog" aria-labelledby="addPositionModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{ obj.invoice_number }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form method="post" action="">
+                {% csrf_token %}
+            <div class="modal-body">
+                {{form |crispy}}
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="closeInvoiceModal" tabindex="-1" role="dialog" aria-labelledby="closeInvoiceModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{obj.invoice_number}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to close invoice number --- {{obj.invoice_number}} ?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <a  href="{% url 'invoices:close_invoice' obj.pk %}" type="submit" class="btn btn-warning">Yes</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    {% if not obj.closed %}
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPositionModal">
+        Add position
+      </button>
+    
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#closeInvoiceModal">
+        Close Invoice
+      </button>
+    {% else %}
+      <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#closeInvoiceModal">
+        PDF
+      </button>
+    {% endif %}
+  </div>
+
+
+
+   <div class="mt-3">
+        <h3>Receiver: {{obj.receiver.name}}</h3>
+        <hr/>
+
+        <h2>Postions</h2>
+        {% if positions %}
+        <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for position in positions %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{position.title}}</td>
+                        <td>{{position.description}}</td>
+                        <td>${{position.amount}}</td>
+                        <td>
+                            {% if not obj.closed %}
+                                <a href="{% url 'invoices:delete_postion' obj.pk position.pk %}" class="btn btn-danger">x</a>
+                            {% endif %} 
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+          <div class="mt-2 text-end">
+             <h2>Total Amount: ${{obj.total_amount}}</h2>
+        </div>
+          {% else %}
+            <p>No positions for this invoice .... </p>
+        {% endif %}
+   </div
+
+{% endblock content %}
